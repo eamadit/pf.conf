@@ -24,14 +24,17 @@
 set limit { states 20000, frags 2000, src-nodes 2000 }
 
 
+
 #ethernet interface, check its name with the command ifconfig:
 
 eth_if = "en7"
 
 
+
 #wifi interface, check its name with the command ifconfig:
 
 ext_if = "en0"
+
 
 
 #For macOS UTM VM in Shared network mode, works also for Linux Fedora with DHCP (use OpenGL, force multicore & be patient until the screen initializes):
@@ -41,11 +44,14 @@ shared_if = "bridge100"
 shared_net = "192.168.64.0/24"
 
 
+
 #For Linux Fedora VM in host-only network mode, in host-only mode you have to set static IP, for example 192.168.128.2, try to close the VM and UTM if your network bridge101 does not have an IP:
 
 host_if = "bridge101"
 
 host_net = "192.168.128.0/24"
+
+
 
 #For internet access via the external router (here Gl.inet)
 
@@ -71,14 +77,19 @@ table <bogons6> persist { \
     100::/64, 2001:db8::/32, fc00::/7, fe80::/10, ff00::/8 }
 
 
+
 #For macOS VM NAT (will cause a unharmful error message when applying configuration in case wifi is off):
 
 nat on $ext_if from $shared_net to $int_net -> $ext_if
 
 
+
 #For Linux Fedora VM NAT (can cause a unharmful error message when applying configuration in case wifi is off):
 
 nat on $ext_if from $host_net to any -> $ext_if
+
+
+
 
 #scrub-anchor "com.apple/*"
 #nat-anchor "com.apple/*"
@@ -86,6 +97,10 @@ nat on $ext_if from $host_net to any -> $ext_if
 #dummynet-anchor "com.apple/*"
 #anchor "com.apple/*"
 #load anchor "com.apple" from "/etc/pf.anchors/com.apple"
+
+
+
+
 
 block all
 
@@ -122,9 +137,11 @@ table <bruteforce> persist
 block quick from <bruteforce>
 
 
+
 #Allow ssh:
 
 #pass in inet proto tcp from any to any port ssh flags S/SA keep state (max-src-conn 10 max-src-conn-rate 10/30, overload <bruteforce> flush global)
+
 
 
 #Allow DoH (DNS over https) and outgoing web traffic:
@@ -132,9 +149,11 @@ block quick from <bruteforce>
 pass out quick on $ext_if proto tcp from any to any port 443
 
 
+
 #Allow non encrypted DNS (very bad practice):
 
 ###pass out quick on $host_if proto udp from any to any port 53
+
 
 
 #access your GL.inet router configuration then add http:// before the address 192.168.8.1 if you encounter problem displaying the router web interface:
@@ -142,9 +161,11 @@ pass out quick on $ext_if proto tcp from any to any port 443
 pass out quick on $eth_if proto tcp from any to any port 80
 
 
+
 #allow ping out:
 
 pass out quick inet proto icmp all
+
 
 
 #allow DHCP:
@@ -152,11 +173,13 @@ pass out quick inet proto icmp all
 pass quick inet proto udp from any port 67:68 to any port 67:68 keep state (max-src-conn 1 max-src-conn-rate 1/30, overload <bruteforce> flush global)
 
 
+
 #Allow all traffic on the host-only interface:
 
 pass in on $host_if from $host_net to any keep state
 
 pass out on $host_if from any to $host_net keep state
+
 
 
 #Allow traffic on the UTM shared network interface:
@@ -176,6 +199,10 @@ block in quick on $ext_if inet6 from <bogons6> to any
 block in quick on $eth_if from urpf-failed
 
 block in quick on $ext_if from urpf-failed
+
+
+
+
 
 #apply config by typing: sudo pfctl -f /etc/pf.conf
 
