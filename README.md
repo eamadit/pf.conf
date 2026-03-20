@@ -1,6 +1,4 @@
-#This script tries to catch attacks so the AI makes itseft more discrete, try to play with apparently redundent rules
-
-#on recent versions of macOS you need to have an IP address UP on the interfaces $eth_if and $ext_if to be able to apply this config with: sudo pfctl -f /etc/pf.conf
+#On recent versions of macOS you need to have an IP address UP on the interfaces $eth_if and $ext_if to be able to apply this config with: sudo pfctl -f /etc/pf.conf
 
 #replace the content of /etc/pf.conf with this:
 
