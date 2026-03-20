@@ -33,9 +33,7 @@ ext_if = "en0"
 shared_if = "bridge100"
 shared_net = "192.168.64.0/24"
 
-#For Linux Fedora VM in host-only network mode, in host-only mode you have to set static IP, for example 192.168.128.2, try to close the VM and UTM if your network 
-
-bridge101 does not have an IP:
+#For Linux Fedora VM in host-only network mode, in host-only mode you have to set static IP, for example 192.168.128.2, try to close the VM and UTM if your network bridge101 does not have an IP:
 host_if = "bridge101"
 host_net = "192.168.128.0/24"
 
