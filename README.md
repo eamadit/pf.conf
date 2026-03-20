@@ -31,10 +31,13 @@ ext_if = "en0"
 #For macOS UTM VM in Shared network mode, works also for Linux Fedora with DHCP (use OpenGL, force multicore & be patient until the screen initializes):
 
 shared_if = "bridge100"
+
 shared_net = "192.168.64.0/24"
 
 #For Linux Fedora VM in host-only network mode, in host-only mode you have to set static IP, for example 192.168.128.2, try to close the VM and UTM if your network bridge101 does not have an IP:
+
 host_if = "bridge101"
+
 host_net = "192.168.128.0/24"
 
 #For internet access via the external router (here Gl.inet)
@@ -42,9 +45,13 @@ host_net = "192.168.128.0/24"
 int_net = "192.168.9.0/24"
 
 set block-policy drop
+
 tcp_state="flags S/SA keep state"
+
 udp_state="keep state"
+
 scrub in on $ext_if all fragment reassemble
+
 scrub out on $ext_if all fragment reassemble
 
 table <bogons4> persist { \
